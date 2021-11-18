@@ -1,0 +1,41 @@
+.note {
+    display: block;
+    width: 15em;
+    height: 15em;
+    padding: 1em;
+    margin: 1.5em;
+    list-style: none;
+    word-wrap: break-word;
+    overflow: hidden;
+    font-size: 1rem;
+    color: #333;
+    background-color: rgb(204, 204, 125);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, .5);
+    transition: transform .2s ease-in-out;
+}
+
+.note h2 {
+    font-size: 1.25rem;
+    margin-bottom: .5em;
+}
+
+.note:nth-child(even) {
+    transform: rotate(4deg);
+    background-color: rgb(136, 154, 202);
+}
+
+.note:nth-child(3) {
+    transform: rotate(-5deg);
+    background-color: rgb(204, 125, 200);
+}
+
+.note:nth-child(5) {
+    transform: rotate(7deg);
+    background-color: rgb(125, 204, 136);
+}
+
+.note:hover {
+    transform: scale(1.2);
+    box-shadow: 6px 8px 12px rgba(0, 0, 0, .45);
+    z-index: 10;
+}
