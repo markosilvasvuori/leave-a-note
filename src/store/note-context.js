@@ -8,6 +8,10 @@ export const NoteProvider = (props) => {
     const url = 'https://react-leave-a-note-default-rtdb.europe-west1.firebasedatabase.app/notes.json';
 
     useEffect(() => {
+        const intervalID = setInterval(() => {
+            setCanFetchNotes(true);
+        }, 5000);
+
         if (canFetchNotes) {
             const fetchNotes = async () => {
                 const response = await fetch(url);
@@ -17,6 +21,8 @@ export const NoteProvider = (props) => {
             fetchNotes();
             setCanFetchNotes(false);
         }
+
+        return () => clearInterval(intervalID);
     }, [canFetchNotes]);
 
     const submitNotesHandler = async (note) => {   
