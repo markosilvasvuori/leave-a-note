@@ -5,7 +5,12 @@ export const NoteContext = createContext();
 export const NoteProvider = (props) => {
     const [notes, setNotes] = useState([]);
     const [canFetchNotes, setCanFetchNotes] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const url = 'https://react-leave-a-note-default-rtdb.europe-west1.firebasedatabase.app/notes.json';
+    const [error, setError] = useState({
+        isError: false,
+        errorMessage: ''
+    });
 
     useEffect(() => {
         const intervalID = setInterval(() => {
@@ -14,10 +19,24 @@ export const NoteProvider = (props) => {
 
         if (canFetchNotes) {
             const fetchNotes = async () => {
-                const response = await fetch(url);
-                const data = await response.json();
-                setNotes(data);
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    setNotes(data);
+                    setIsLoading(false);
+                    setError({
+                        isError: false,
+                        errorMessage: ''
+                    });
+                } catch(err) {
+                    console.log(err);
+                    return setError({
+                        isError: true,
+                        errorMessage: 'Something went wrong!'
+                    });
+                }
             };
+
             fetchNotes();
             setCanFetchNotes(false);
         }
@@ -35,7 +54,7 @@ export const NoteProvider = (props) => {
     };
 
     return (
-        <NoteContext.Provider value={{notes, setNotes, submitNotesHandler}}>
+        <NoteContext.Provider value={{notes, setNotes, isLoading, error, submitNotesHandler}}>
             {props.children}
         </NoteContext.Provider>
     );
